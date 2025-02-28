@@ -15,10 +15,15 @@ class Spreadsheetscreen extends StatefulWidget {
 }
 
 class _SpreadsheetscreenState extends State<Spreadsheetscreen> {
-  List<List<String>> data = List.generate(50, (_) => List.generate(20, (_) => ''));
+  List<List<String>> data = List.generate(26, (_) => List.generate(26, (_) => ''));
   TextEditingController formulaController = TextEditingController();
   int? selectedRow;
   int? selectedCol;
+  Map<String, TextStyle> cellStyles = {};
+  double defaultFontSize = 14;
+  Color defaultFontColor = Colors.black;
+  List<Color> colors = [Colors.black, Colors.white, Colors.red, Colors.blue, Colors.green, Colors.yellow, Colors.purple];
+  Color selectedColor = Colors.black;
 
   void calculateFormula() {
     setState(() {
@@ -72,6 +77,15 @@ class _SpreadsheetscreenState extends State<Spreadsheetscreen> {
     }
   }
 
+  void updateCellStyle(TextStyle Function(TextStyle) modifier) {
+    if (selectedRow != null && selectedCol != null) {
+      String key = '$selectedRow-$selectedCol';
+      setState(() {
+        cellStyles[key] = modifier(cellStyles[key] ?? TextStyle(fontSize: defaultFontSize, color: defaultFontColor));
+      });
+    }
+  }
+
   
   @override
   Widget build(BuildContext context) {
@@ -79,7 +93,35 @@ class _SpreadsheetscreenState extends State<Spreadsheetscreen> {
       appBar: AppBar(title: Text('Sheets'),
       automaticallyImplyLeading: false,
       actions: [
-                        IconButton(
+        IconButton(
+              icon: Icon(Icons.format_bold),
+              onPressed: () => updateCellStyle((style) => style.copyWith(fontWeight: style.fontWeight == FontWeight.bold ? FontWeight.normal : FontWeight.bold))),
+          IconButton(
+              icon: Icon(Icons.format_italic),
+              onPressed: () => updateCellStyle((style) => style.copyWith(fontStyle: style.fontStyle == FontStyle.italic ? FontStyle.normal : FontStyle.italic))),
+          IconButton(
+              icon: Icon(Icons.text_fields),
+              onPressed: () => updateCellStyle((style) => style.copyWith(fontSize: style.fontSize! + 2))),
+          DropdownButton<Color>(
+            dropdownColor: Colors.blue[100],
+            menuWidth: 80,
+            value: selectedColor,
+            onChanged: (Color? newColor) {
+              if (newColor != null) {
+                setState(() {
+                  selectedColor = newColor;
+                });
+                updateCellStyle((style) => style.copyWith(color: selectedColor));
+              }
+            },
+            items: colors.map((Color color) {
+              return DropdownMenuItem<Color>(
+                value: color,
+                child: Container(width: 24, height: 24, color: color),
+              );
+            }).toList(),
+          ),
+          IconButton(
                 icon: Icon(Icons.format_size),
                 onPressed: () {
                   setState(() {
@@ -142,16 +184,15 @@ class _SpreadsheetscreenState extends State<Spreadsheetscreen> {
         child: SingleChildScrollView(
           child: DataTable(
             border: TableBorder.all(width: 1),
-            headingRowColor: MaterialStateProperty.all(Colors.green),
+            headingRowColor: WidgetStatePropertyAll(Colors.green),
             columns: [
               DataColumn(label: Center(child: Text('#', style: TextStyle(fontWeight: FontWeight.bold)))),
-              for (int i = 0; i < 20; i++)
-                DataColumn(label: Center(child: Text(String.fromCharCode(65 + i), style: TextStyle(fontWeight: FontWeight.bold))))
+              for (int i = 0; i < 26; i++) DataColumn(label: Center(child: Text(String.fromCharCode(65 + i), style: TextStyle(fontWeight: FontWeight.bold))))
             ],
-            rows: List.generate(20, (row) =>
+            rows: List.generate(26, (row) =>
               DataRow(cells: [
                 DataCell(Text('${row + 1}', style: TextStyle(fontWeight: FontWeight.bold))),
-                for (int col = 0; col < 20; col++)
+                for (int col = 0; col < 26; col++)
                   DataCell(
                     Draggable(
                       data: {'row': row, 'col': col},
@@ -170,21 +211,23 @@ class _SpreadsheetscreenState extends State<Spreadsheetscreen> {
                               selectedCol = col;
                             });
                           },
-                          child: TextFormField(
-                            initialValue: data[row][col],
-                            textAlign: TextAlign.center,
-                            keyboardType: TextInputType.text,
-                            onChanged: (value) {
-                              setState(() {
-                                if (!isValidCell(value)) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text('Cell must contain only numbers or only letters')),
-                                  );
-                                } else {
-                                  data[row][col] = value;
-                                }
-                              });
-                            },
+                          child: Container(
+                            child: TextFormField(
+                              initialValue: data[row][col],
+                              textAlign: TextAlign.center,
+                              keyboardType: TextInputType.text,
+                              onChanged: (value) {
+                                setState(() {
+                                  if (!isValidCell(value)) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text('Cell must contain only numbers or only letters')),
+                                    );
+                                  } else {
+                                    data[row][col] = value;
+                                  }
+                                });
+                              },
+                            ),
                           ),
                         ),
                       ),
