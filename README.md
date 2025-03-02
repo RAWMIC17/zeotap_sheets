@@ -10,6 +10,33 @@ Sheets is a Flutter-based spreadsheet application that allows users to create, e
 - **CSV Export/Import**: Save and load spreadsheet data in CSV format.
 - **User-friendly UI**: Easy-to-use interface for seamless interaction.
 
+## Usage
+Run commands like: 
+```sh
+SUM(A1:A4)
+```
+
+```sh
+AVERAGE(A1:A4)
+```
+
+```sh
+MIN(A1:A4)
+```
+
+```sh
+MAX(A1:A4)
+```
+
+
+- ## 📷 Screenshots
+  ![sheets_1](https://github.com/user-attachments/assets/914b5bca-a159-4b70-8aaa-f1eceb13b478)
+  ![sheets_2](https://github.com/user-attachments/assets/ce56d0c5-da64-4241-ba95-6e692c3cca0c)
+  ![sheets_3](https://github.com/user-attachments/assets/645e06fc-af32-4742-829e-621614440fba)
+  ![sheets_4](https://github.com/user-attachments/assets/a712cbf2-95d7-459d-bbda-cf4d9d133353)
+
+
+
 ## Installation
 
 ### Prerequisites
@@ -44,8 +71,6 @@ Ensure you have Flutter installed. If not, install it by following the official 
 - **path_provider**: To store and retrieve files from the device.
 - **csv**: For CSV file processing.
 
-## Contribution
-Contributions are welcome! Feel free to fork the repository, make changes, and submit a pull request.
 
 ## Acknowledgments
 Special thanks to the Flutter community for providing valuable resources and support.
