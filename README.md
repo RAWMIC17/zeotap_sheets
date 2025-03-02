@@ -52,8 +52,6 @@ Ensure you have Flutter installed. If not, install it by following the official 
 - **path_provider**: To store and retrieve files from the device.
 - **csv**: For CSV file processing.
 
-## Contribution
-Contributions are welcome! Feel free to fork the repository, make changes, and submit a pull request.
 
 ## Acknowledgments
 Special thanks to the Flutter community for providing valuable resources and support.
