@@ -10,10 +10,8 @@ class FormulaEvaluator {
       return _max(formula, data);
     } else if (formula.startsWith("MIN(")) {
       return _min(formula, data);
-    } else if (formula.startsWith("COUNT(")) {
-      return _count(formula, data);
     }
-    return _evaluateExpression(formula, data);
+    return "Invalid Formula";
   }
 
   static String _sum(String formula, List<List<String>> data) {
@@ -32,10 +30,6 @@ class FormulaEvaluator {
     return _calculateAggregate(formula, data, (values) => values.reduce((a, b) => a < b ? a : b));
   }
 
-  static String _count(String formula, List<List<String>> data) {
-    return _calculateAggregate(formula, data, (values) => values.length.toDouble());
-  }
-
   static String _calculateAggregate(String formula, List<List<String>> data, double Function(List<double>) operation) {
     List<String> range = formula.replaceAll(RegExp(r'\w+\('), "").replaceAll(")", "").split(":");
     if (range.length == 2) {
@@ -50,30 +44,5 @@ class FormulaEvaluator {
       return values.isNotEmpty ? operation(values).toString() : "0";
     }
     return "Invalid Range";
-  }
-
-  static String _evaluateExpression(String expression, List<List<String>> data) {
-    expression = _replaceCellReferences(expression, data);
-    try {
-      Parser parser = Parser();
-      Expression exp = parser.parse(expression);
-      ContextModel cm = ContextModel();
-      return exp.evaluate(EvaluationType.REAL, cm).toString();
-    } catch (e) {
-      return "Error";
-    }
-  }
-
-  static String _replaceCellReferences(String expression, List<List<String>> data) {
-    RegExp regex = RegExp(r'([A-Z]+)([0-9]+)');
-    return expression.replaceAllMapped(regex, (match) {
-      String colRef = match.group(1)!;
-      int rowRef = int.parse(match.group(2)!) - 1;
-      int colIndex = colRef.codeUnitAt(0) - 65;
-      if (rowRef >= 0 && rowRef < data.length && colIndex >= 0 && colIndex < data[0].length) {
-        return data[rowRef][colIndex];
-      }
-      return "0";
-    });
   }
 }

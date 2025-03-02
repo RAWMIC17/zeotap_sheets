@@ -43,9 +43,9 @@ class _SpreadsheetscreenState extends State<Spreadsheetscreen> {
     });
   }
 
-      bool isValidCell(String value) {
-    return RegExp(r'^[0-9]+\$').hasMatch(value) || RegExp(r'^[a-zA-Z]+\$').hasMatch(value);
-  }
+  //     bool isValidCell(String value) {
+  //   return RegExp(r'^[0-9]+\$').hasMatch(value) || RegExp(r'^[a-zA-Z]+\$').hasMatch(value);
+  // }
 
   Future<void> exportToCSV() async {
     String csvData = const ListToCsvConverter().convert(data);
@@ -218,13 +218,13 @@ class _SpreadsheetscreenState extends State<Spreadsheetscreen> {
                               keyboardType: TextInputType.text,
                               onChanged: (value) {
                                 setState(() {
-                                  if (!isValidCell(value)) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(content: Text('Cell must contain only numbers or only letters')),
-                                    );
-                                  } else {
+                                  // if (!isValidCell(value)) {
+                                  //   ScaffoldMessenger.of(context).showSnackBar(
+                                  //     SnackBar(content: Text('Cell must contain only numbers or only letters')),
+                                  //   );
+                                  // } else {
                                     data[row][col] = value;
-                                  }
+                                  //}
                                 });
                               },
                             ),
