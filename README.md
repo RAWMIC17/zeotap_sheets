@@ -10,6 +10,25 @@ Sheets is a Flutter-based spreadsheet application that allows users to create, e
 - **CSV Export/Import**: Save and load spreadsheet data in CSV format.
 - **User-friendly UI**: Easy-to-use interface for seamless interaction.
 
+## Usage
+Run commands like: 
+```sh
+SUM(A1:A4)
+```
+
+```sh
+AVERAGE(A1:A4)
+```
+
+```sh
+MIN(A1:A4)
+```
+
+```sh
+MAX(A1:A4)
+```
+
+
 - ## 📷 Screenshots
   ![sheets_1](https://github.com/user-attachments/assets/914b5bca-a159-4b70-8aaa-f1eceb13b478)
   ![sheets_2](https://github.com/user-attachments/assets/ce56d0c5-da64-4241-ba95-6e692c3cca0c)
