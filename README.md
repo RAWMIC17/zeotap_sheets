@@ -50,7 +50,7 @@ Ensure you have Flutter installed. If not, install it by following the official 
    ```
 2. Install dependencies:
    ```sh
-   flutter pub add path_provider        file_picker csv math_expressions velocity_x
+   flutter pub add path_provider file_picker csv math_expressions velocity_x
    flutter pub get
    ```
 3. Run the application:
